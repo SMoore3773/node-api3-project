@@ -21,7 +21,7 @@ router.get('/:id',validatePostId, (req, res) => {
   .then(post =>{
     res.status(200).json(post)
   })
-  .catch(err =>{
+  .catch(() =>{
     res.status(500).json({message:`error in getting post with id of ${req.params.id}`})
   }
   )
@@ -30,7 +30,7 @@ router.get('/:id',validatePostId, (req, res) => {
 router.delete('/:id',validatePostId, (req, res) => {
   // do your magic!
   postDB.remove(req.params.id)
-  .then(post =>{
+  .then(() =>{
     res.status(200).json({message: "the post has been deleted"})
   })
   .catch(err=>{

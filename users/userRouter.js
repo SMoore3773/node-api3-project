@@ -20,16 +20,13 @@ router.post('/:id/posts', validateUserId, validatePost, (req, res) => {
   // do your magic!
   const { id } = req.params;
   let newPost = req.body;
-
   newPost.user_id = id;
 
   postsDB.insert(newPost)
-    .then(post => {
-      res.status(201).json(newPost);
-    })
-    .catch(err => {
-      res.status(500).json({ message: 'error in posting new post to database' })
-    })
+    .then(post => res.status(201).json(post))
+    .catch(() =>res.status(500).json({ 
+      message: 'error in posting new post to database' 
+    }))
 });
 
 router.get('/', (req, res) => {
