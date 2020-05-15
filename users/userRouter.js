@@ -8,29 +8,28 @@ router.post('/', validateUser, (req, res) => {
   // do your magic!
   const newUser = req.body;
   db.insert(newUser)
-  .then(user =>{
-    res.status(201).json(user);
-  })
-  .catch(err =>{
-    res.status(500).json({message: 'error in posting new user to database'})
-  })
+    .then(user => {
+      res.status(201).json(user);
+    })
+    .catch(err => {
+      res.status(500).json({ message: 'error in posting new user to database' })
+    })
 });
 
 router.post('/:id/posts', validateUserId, validatePost, (req, res) => {
   // do your magic!
-  // console.log(req)
-  const {id} = req.params;
+  const { id } = req.params;
   let newPost = req.body;
+
   newPost.user_id = id;
-  console.log(newPost)
+
   postsDB.insert(newPost)
-  .then(post =>{
-    res.status(201).json(newPost);
-  })
-  .catch(err =>{
-    // console.log(err)
-    res.status(500).json({message:'error in posting new post to database'})
-  })
+    .then(post => {
+      res.status(201).json(newPost);
+    })
+    .catch(err => {
+      res.status(500).json({ message: 'error in posting new post to database' })
+    })
 });
 
 router.get('/', (req, res) => {
@@ -59,24 +58,24 @@ router.get('/:id', validateUserId, (req, res) => {
 router.get('/:id/posts', validateUserId, (req, res) => {
   // do your magic!
   db.getUserPosts(req.params.id)
-  .then(post =>{
-    if(post.length > 0){
-      res.status(200).json(post)
-    }else{
-      res.status(404).json({message: 'this user does not have any posts'})
-    }
-  })
+    .then(post => {
+      if (post.length > 0) {
+        res.status(200).json(post)
+      } else {
+        res.status(404).json({ message: 'this user does not have any posts' })
+      }
+    })
 });
 
 router.delete('/:id', validateUserId, (req, res) => {
   // do your magic!
   db.remove(req.params.id)
-  .then(user =>{
-    res.status(200).json({message: `The user has been removed`})
-  })
-  .catch(err=>{
-    res.status(500).json({message:'Error in removing user'})
-  })
+    .then(user => {
+      res.status(200).json({ message: `The user has been removed` })
+    })
+    .catch(err => {
+      res.status(500).json({ message: 'Error in removing user' })
+    })
 
 });
 
@@ -84,13 +83,13 @@ router.put('/:id', validateUserId, validateUser, (req, res) => {
   // do your magic!
   const changes = req.body;
   db.update(req.params.id, changes)
-  .then(name=>{
-    res.status(200).json(changes)
-  }
-  )
-  .catch(err =>{
-    res.status(500).json({error:'error posting changes to database'})
-  })
+    .then(name => {
+      res.status(200).json(changes)
+    }
+    )
+    .catch(err => {
+      res.status(500).json({ error: 'error posting changes to database' })
+    })
 });
 
 //custom middleware
